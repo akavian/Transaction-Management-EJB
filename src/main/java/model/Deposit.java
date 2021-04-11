@@ -12,13 +12,17 @@ import java.time.LocalDateTime;
 @Table(name = "T_DEPOSIT")
 
 @NamedQueries({
-        @NamedQuery(name = "Deposit.findAll", query = "select deposit from Deposit deposit"),
-        @NamedQuery(name = "Deposit.findById", query = "select  deposit from  Deposit deposit " +
+        @NamedQuery(name = Deposit.FIND_ALL, query = "select deposit from Deposit deposit"),
+        @NamedQuery(name = Deposit.FIND_BY_ID, query = "select  deposit from  Deposit deposit " +
                 "where deposit.id=:id"),
-        @NamedQuery(name = "Deposit.findByNumber", query = "select deposit from  Deposit deposit" +
+        @NamedQuery(name = Deposit.FIND_BY_NUMBER, query = "select deposit from  Deposit deposit" +
                 " where deposit.number =: number")
 })
 public class Deposit extends EntityModel {
+
+    public static final String FIND_ALL = "Deposit.findAll";
+    public static final String FIND_BY_ID = "Deposit.findById";
+    public static final String FIND_BY_NUMBER = "Deposit.findByNumber";
 
     @Column(
             name = "C_NUMBER",

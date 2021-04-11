@@ -2,6 +2,7 @@ package service;
 
 
 import data.DepositDTO;
+import enums.DepositStatus;
 import mapper.DepositMapper;
 import model.Customer;
 import model.Deposit;
@@ -31,7 +32,7 @@ public class DepositService {
     }
 
     public DepositDTO create(DepositDTO depositDTO) {
-        Deposit deposit = depositMapper.toEntity(depositDTO);
+        Deposit deposit = depositMapper.toEntity(depositDTO, null);
         Customer customer = customerService.findByCustomerNumber(depositDTO.getCustomerNumber());
         deposit.setCustomer(customer);
         depositDTO.setCustomerNumber(customer.getCustomerNumber());
@@ -53,19 +54,25 @@ public class DepositService {
         Deposit sourceDeposit = depositRepository
                 .findByNumber(sourceDepositNumber)
                 .orElseThrow(EJBException::new);
-
         Deposit destinationDeposit = depositRepository
                 .findByNumber(destinationDepositNumber)
                 .orElseThrow(EJBException::new);
 
-        if(sourceDeposit.getBalance().compareTo(amount.abs()) < 1){
-            throw new EJBException();
+        if(sourceDeposit.getStatus().equals(DepositStatus.OPEN) &&
+                destinationDeposit.getStatus().equals(DepositStatus.OPEN)){
+
+            if(sourceDeposit.getBalance().compareTo(amount.abs()) < 1){
+                throw new EJBException();
+            } else {
+                sourceDeposit.setBalance(sourceDeposit.getBalance().add(amount.negate()));
+                destinationDeposit.setBalance(destinationDeposit.getBalance().add(amount));
+                depositRepository.merge(sourceDeposit);
+                depositRepository.merge(destinationDeposit);
+            }
         } else {
-         sourceDeposit.setBalance(sourceDeposit.getBalance().add(amount.negate()));
-         destinationDeposit.setBalance(destinationDeposit.getBalance().add(amount));
-         depositRepository.merge(sourceDeposit);
-         depositRepository.merge(destinationDeposit);
+            throw new EJBException();
         }
+
     }
 
 }

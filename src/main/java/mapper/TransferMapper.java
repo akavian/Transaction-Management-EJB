@@ -50,13 +50,13 @@ public class TransferMapper {
         return transfer;
     }
 
-     public List<Transfer> toEntityList ( List <TransferDTO> transferDTOList){
-        List<Transfer> transfers = new ArrayList<>();
-        transferDTOList.forEach(transferDTO -> {
-            transfers.add(toEntity(transferDTO));
-        });
-        return transfers;
-    }
+//     public List<Transfer> toEntityList ( List <TransferDTO> transferDTOList){
+//        List<Transfer> transfers = new ArrayList<>();
+//        transferDTOList.forEach(transferDTO -> {
+//            transfers.add(toEntity(transferDTO));
+//        });
+//        return transfers;
+//    }
 
 
 }

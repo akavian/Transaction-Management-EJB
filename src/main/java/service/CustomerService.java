@@ -26,7 +26,6 @@ public class CustomerService {
 
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
         Customer customer = customerMapper.toEntity(customerDTO, new Customer());
-        customer.setCustomerNumber(generateCustomerNumber());
         customerRepository.persist(customer);
         customerDTO.setCustomerNumber(customer.getCustomerNumber());
         return customerDTO;
@@ -48,15 +47,5 @@ public class CustomerService {
                 .orElseThrow(EJBException::new);
     }
 
-
-    private String generateCustomerNumber() {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        SecureRandom secureRandom = new SecureRandom();
-        IntStream ints = secureRandom.ints(16, 0, 10);
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(localDateTime.getYear());
-        ints.forEach(stringBuilder::append);
-        return stringBuilder.toString();
-    }
 
 }

@@ -15,8 +15,8 @@ public abstract class GenericRepository <T extends Serializable, ID extends Seri
         entityManager.persist(t);
     }
 
-    public void merge(T t){
-        entityManager.merge(t);
+    public T merge(T t){
+        return entityManager.merge(t);
     }
 
     public void delete(T t){

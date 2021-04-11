@@ -12,13 +12,13 @@ public class DepositRepository extends GenericRepository<Deposit, Long> {
 
     public List<Deposit> findAll(){
         return entityManager
-                .createNamedQuery("Deposit.findAll", Deposit.class)
+                .createNamedQuery(Deposit.FIND_ALL, Deposit.class)
                 .getResultList();
     }
 
     public Optional<Deposit> findById(long id){
         return entityManager
-                .createNamedQuery("Deposit.findById", Deposit.class)
+                .createNamedQuery(Deposit.FIND_BY_ID, Deposit.class)
                 .setParameter("id",id)
                 .getResultList()
                 .stream()
@@ -27,7 +27,8 @@ public class DepositRepository extends GenericRepository<Deposit, Long> {
 
     public Optional<Deposit> findByNumber(String number){
         return entityManager
-                .createNamedQuery("Deposit.findByNumber", Deposit.class)
+                .createNamedQuery(Deposit.FIND_BY_NUMBER, Deposit.class)
+                .setParameter("number", number)
                 .getResultList()
                 .stream().findFirst();
     }

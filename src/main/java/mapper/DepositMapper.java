@@ -38,8 +38,10 @@ public class DepositMapper {
         return depositDTOList;
     }
 
-    public Deposit toEntity(DepositDTO depositDTO) {
-        Deposit deposit = null;
+    public Deposit toEntity(DepositDTO depositDTO, Deposit deposit) {
+        if (deposit == null) {
+            deposit = new Deposit();
+        }
         if (depositDTO != null) {
             deposit = new Deposit();
             deposit.setBalance(depositDTO.getBalance());
@@ -51,13 +53,4 @@ public class DepositMapper {
         return deposit;
     }
 
-    public List<Deposit> toEntityList(List<DepositDTO> depositDTOList, List<Deposit> deposits) {
-        if(deposits == null){
-            deposits = new ArrayList<>();
-        }
-        depositDTOList.forEach(depositDTO -> {
-            deposits.add(toEntity(depositDTO));
-        });
-        return deposits;
-    }
 }

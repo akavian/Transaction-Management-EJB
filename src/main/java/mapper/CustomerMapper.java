@@ -56,7 +56,6 @@ public class CustomerMapper {
             customer.setCustomerNumber(customerDTO.getCustomerNumber());
             customer.setFirstName(customerDTO.getFirstName());
             customer.setLastName(customerDTO.getLastName());
-            customer.setDeposits(depositMapper.toEntityList(customerDTO.getDepositDTOList()));
             customer.setNationalCode(customerDTO.getNationalCode());
         }
         return customer;

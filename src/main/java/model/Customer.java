@@ -1,19 +1,28 @@
 package model;
 
 import javax.persistence.*;
+import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Entity
 @Table(name = "T_CUSTOMER")
 @NamedQueries({
-        @NamedQuery(name = "Customer.findAll",query = "select customer from Customer customer"),
-        @NamedQuery(name = "Customer.findById", query ="select  customer from  Customer customer " +
+        @NamedQuery(name = Customer.FIND_ALL, query = "select customer from Customer customer"),
+        @NamedQuery(name = Customer.FIND_BY_ID, query = "select  customer from  Customer customer " +
                 "where customer.id=:id"),
-        @NamedQuery(name = "Customer.findByCustomerNumber", query = "select customer from  Customer customer" +
+        @NamedQuery(name = Customer.FIND_BY_CUSTOMER_NUMBER, query = "select customer from  Customer customer" +
                 " where customer.customerNumber =: customerNumber")
 })
-public class Customer extends EntityModel{
+public class Customer extends EntityModel {
+
+    public static final String FIND_ALL = "Customer.findAll";
+
+    public static final String FIND_BY_ID = "Customer.findById";
+
+    public static final String FIND_BY_CUSTOMER_NUMBER = "Customer.findByCustomerNumber";
 
     @Column(
             name = "C_FIRST_NAME",
@@ -44,7 +53,7 @@ public class Customer extends EntityModel{
             length = 20,
             updatable = false
     )
-    private String customerNumber ;
+    private String customerNumber;
 
     @OneToMany(
             cascade = {
@@ -96,10 +105,21 @@ public class Customer extends EntityModel{
         this.deposits = deposits;
     }
 
-    private void addDeposit(Deposit deposit){
-        if(deposits == null){
-            deposits =  new ArrayList<>();
+    private void addDeposit(Deposit deposit) {
+        if (deposits == null) {
+            deposits = new ArrayList<>();
         }
         deposits.add(deposit);
+    }
+
+    @PrePersist
+    private void generateCustomerNumber() {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        SecureRandom secureRandom = new SecureRandom();
+        IntStream ints = secureRandom.ints(16, 0, 10);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(localDateTime.getYear());
+        ints.forEach(stringBuilder::append);
+        this.customerNumber = stringBuilder.toString();
     }
 }
