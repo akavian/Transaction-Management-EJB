@@ -33,7 +33,7 @@ public class DepositService {
 
     public DepositDTO create(DepositDTO depositDTO) {
         Deposit deposit = depositMapper.toEntity(depositDTO, null);
-        Customer customer = customerService.findByCustomerNumber(depositDTO.getCustomerNumber());
+        Customer customer = customerService.findEntityByCustomerNumber(depositDTO.getCustomerNumber());
         deposit.setCustomer(customer);
         depositDTO.setCustomerNumber(customer.getCustomerNumber());
 

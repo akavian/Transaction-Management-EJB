@@ -10,9 +10,6 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import java.security.SecureRandom;
-import java.time.LocalDateTime;
-import java.util.stream.IntStream;
 
 @Stateless
 @LocalBean
@@ -41,11 +38,18 @@ public class CustomerService {
     }
 
 
-    public Customer findByCustomerNumber(String customerNumber) {
+    public CustomerDTO findByCustomerNumber(String customerNumber) {
+        return customerMapper.toDTO(customerRepository
+                .findByCustomerNumber(customerNumber)
+                .orElseThrow(EJBException::new));
+
+    }
+
+    public Customer findEntityByCustomerNumber(String customerNumber) {
         return customerRepository
                 .findByCustomerNumber(customerNumber)
                 .orElseThrow(EJBException::new);
-    }
 
+    }
 
 }

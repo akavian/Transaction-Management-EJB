@@ -1,21 +1,40 @@
 package controller;
 
-import model.Customer;
+import data.CustomerDTO;
+import service.CustomerService;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 
-@Path("/customer")
+@Stateless
+@LocalBean
+@WebService(
+        name = "CustomerService",
+        portName = "CustomerPort",
+        targetNamespace = "training.tosan.com/customer")
 public class CustomerController {
 
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(Customer customer){
-        return null;
+    @EJB
+    CustomerService customerService;
+
+
+    @WebMethod(operationName = "create")
+    public CustomerDTO create(CustomerDTO customerDTO){
+        return customerService.createCustomer(customerDTO);
     }
+
+    @WebMethod(operationName = "update")
+    public CustomerDTO update(CustomerDTO customerDTO){
+        return customerService.updateCustomer(customerDTO);
+    }
+
+
+    @WebMethod(operationName = "findByCustomerNumber")
+    public CustomerDTO findByCustomerNumber(String customerNumber){
+        return customerService.findByCustomerNumber(customerNumber);
+    }
+
 }

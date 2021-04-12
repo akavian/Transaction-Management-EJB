@@ -7,7 +7,7 @@
         <packaging>war</packaging>
       </options>
     </properties>
-    <root id="archive" name="training-1.0-SNAPSHOT.war">
+    <root id="archive" name="com.tosan.training-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="training:war exploded" />
     </root>
   </artifact>

@@ -21,12 +21,9 @@ public class CustomerMapper {
     private DepositMapper depositMapper;
 
 
-    public CustomerDTO toDTO(Customer customer, CustomerDTO customerDTO) {
-
+    public CustomerDTO toDTO(Customer customer) {
+        CustomerDTO customerDTO = new CustomerDTO();
         if (customer != null) {
-            if (customerDTO == null) {
-                customerDTO = new CustomerDTO();
-            }
             customerDTO.setCustomerNumber(customer.getCustomerNumber());
             customerDTO.setFirstName(customer.getFirstName());
             customerDTO.setLastName(customer.getLastName());
@@ -40,7 +37,7 @@ public class CustomerMapper {
     public List<CustomerDTO> toDTOList(List<Customer> customers) {
         List<CustomerDTO> customerDTOList = new ArrayList<>();
         customers.forEach(customer -> {
-            customerDTOList.add(toDTO(customer, new CustomerDTO()));
+            customerDTOList.add(toDTO(customer));
         });
         return customerDTOList;
     }

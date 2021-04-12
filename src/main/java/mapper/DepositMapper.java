@@ -20,7 +20,7 @@ public class DepositMapper {
         if (deposit != null) {
             depositDTO = new DepositDTO();
             depositDTO.setBalance(deposit.getBalance());
-            depositDTO.setLocalDateTime(deposit.getOpeningTime());
+            depositDTO.setLocalDateTime(deposit.getOpeningTime().toString());
             depositDTO.setStatus(deposit.getStatus().toString());
             depositDTO.setNumber(deposit.getNumber());
             depositDTO.setCustomerNumber(deposit.getCustomer().getCustomerNumber());
@@ -46,7 +46,6 @@ public class DepositMapper {
             deposit = new Deposit();
             deposit.setBalance(depositDTO.getBalance());
             deposit.setNumber(depositDTO.getNumber());
-            deposit.setOpeningTime(depositDTO.getLocalDateTime());
             deposit.setStatus(DepositStatus.valueOf(depositDTO.getStatus()));
 
         }

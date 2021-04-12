@@ -9,7 +9,7 @@ public class DepositDTO {
 
     private String status;
 
-    private LocalDateTime localDateTime;
+    private String localDateTime;
 
     private BigDecimal balance;
 
@@ -39,11 +39,11 @@ public class DepositDTO {
         this.status = status;
     }
 
-    public LocalDateTime getLocalDateTime() {
+    public String getLocalDateTime() {
         return localDateTime;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
+    public void setLocalDateTime(String localDateTime) {
         this.localDateTime = localDateTime;
     }
 

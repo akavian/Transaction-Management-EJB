@@ -2,10 +2,16 @@ package model;
 
 
 import enums.DepositStatus;
+import service.DepositService;
 
 import javax.persistence.*;
+import javax.xml.crypto.Data;
 import java.math.BigDecimal;
+import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.stream.IntStream;
 
 
 @Entity
@@ -40,7 +46,7 @@ public class Deposit extends EntityModel {
             nullable = false,
             updatable = false
     )
-    private LocalDateTime openingTime;
+    private LocalDateTime openingTime = LocalDateTime.now();
 
     @Column(
             name = "C_BALANCE",
@@ -98,5 +104,15 @@ public class Deposit extends EntityModel {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+
+    @PrePersist
+    private void doPrePersistOperation(){
+        SecureRandom secureRandom = new SecureRandom();
+        IntStream ints = secureRandom.ints(10,0,9);
+        StringBuilder stringBuilder = new StringBuilder();
+        ints.forEach(stringBuilder::append);
+        number = stringBuilder.toString();
     }
 }
